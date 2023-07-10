@@ -4,11 +4,11 @@
 		{
 			"type": "cppbuild",
 			"label": "debug1", //任务名字
-			"command": "D:\\soft\\Qt5.14.2\\Tools\\mingw730_64\\bin\\g++.exe",
+			"command": "D:\\soft\\Qt\\Qt5.14.2\\Tools\\mingw730_64\\bin\\g++.exe",
 			"args": [ //编译参数
 				"-fdiagnostics-color=always",
 				"-g", //gdb调试
-				"${file}",
+				"${file}", //${workspaceFolder}\\*.cpp
 				"-o",
 				"${fileDirname}\\${fileBasenameNoExtension}.exe"
 			],
@@ -21,8 +21,7 @@
 			"group": {
 				"kind": "build",
 				"isDefault": true //快捷键Ctrl+Shift+B可运行该任务
-			},
-			"detail": "编译器: D:\\soft\\Qt5.14.2\\Tools\\mingw730_64\\bin\\g++.exe"
+			}
 		}
 	]
 }
