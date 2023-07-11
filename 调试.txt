@@ -1,0 +1,52 @@
+launch.json属性：
+type: 调试器类型
+request: 调试模式
+    launch: 启动program中程序并调试
+    attach: 程序附加到正在运行的进程中调试
+name:  调试配置名字
+presentation: orser、group、hidden等属性定义调试配置的显示
+preLaunchTask: 调试前运行任务
+postDebugTask: 调试后运行任务
+internalConsoleOptions: 调试控制台的显示
+serverReadyAction: 调试时自动在浏览器打开URL
+program: 可执行程序或源代码路径
+args: 参数
+env: 环境变量
+cwd: 工作目录，默认${workspaceFolder}
+port: 附加进程端口
+stopOnEntry: 程序入口进行断点
+console: 程序输出位置
+    internalConsole: 调试控制台
+    integratedTerminal: 集成终端
+    externalTerminal: 系统终端
+
+
+变量替换：
+"cwd": "${workspaceFolder}", //预定义变量
+"args": ["${env:USERNAME}"] //环境变量
+
+多目标调试：
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node", 
+            "request": "launch", 
+            "name": "Server",
+            "program": "${workspaceFolder}/server.js"
+        },
+        {
+            "type": "node", 
+            "request": "launch", 
+            "name": "Client",
+            "program": "${workspaceFolder}/client.js"
+        }
+    ],
+    "compounds": [//配置多目标调试
+        {
+            "name": "Server/Client",
+            "configurations": ["Server", "Client"],
+            "preLaunchTask": "${defaultBuildTask}"
+        }
+    ]
+}

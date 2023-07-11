@@ -1,0 +1,91 @@
+tasks.json
+
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "echo",
+			"type": "shell",
+			"command": "echo Hello"
+		}
+	]
+}
+
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run tests",
+			"type": "shell", //shell或process
+			"command": "./scripts/test.sh",
+            "windows": {
+                "command": ".\\scripts\\test.cmd" //会覆盖外面
+            },
+            "group": "test",
+            "presentation": {//用户界面如何处理Task的输出
+                "reveal": "always",//每次运行都输出
+                "panel": "new"//每次运行都创建集成终端
+            },
+            "options": {
+                "cwd": "", //工作目录
+                "env": "", //环境变量
+                "shell": "" //
+            },
+			"runOptions": {//何时运行及如何运行
+				"instanceLimit": 1,
+				"reevaluateOnRerun": true,
+				"runOn": "default"
+			}
+		}
+	]
+}
+
+预定义变量：
+    ${workspaceFolder}: 
+    ${workspaceFolderBasename}: 
+    ${file}: 
+    ${fileBasename}: 
+    ${fileBasenameNoExtension}: 
+    ${fileDirname}: 
+    ${fileExtname}: 
+    ${cwd}: 
+    ${lineNumber}: 
+    ${selectedText}: 
+环境变量：
+    ${env:Path}
+输入变量：
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "echo",
+			"type": "shell",
+			"command": "echo",
+            "args": ["${input:componentType}", "${input:componentName}"]
+		}
+	],
+    "input": [
+        {
+            "id": "componentType"
+            "type": "pickString", //下拉列表
+            "description": "What type of component do you want to create?",
+            "options": [
+                "component",
+                "directive",
+                "pipe",
+                "service",
+                "class",
+                "guard",
+                "interface",
+                "enum"
+            ],
+            "default": "component"
+        },
+        {
+            "id": "componentName"
+            "type": "promptString", //输入框
+            "description": "Name your component.",
+            "default": "my-new-component"
+        }
+    ]
+}
