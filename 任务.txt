@@ -89,3 +89,57 @@ tasks.json
         }
     ]
 }
+options定义环境变量：
+{
+    "version": "2.0.0",
+    "options": {
+        "env": {
+            "win_dir": "build_windows",
+            "linux_dir": "build",
+            "osx_dir": "build_osx",
+            "configure": "../configure --with-bash-malloc=no CFLAGS=\"-O3 -fno-builtin-malloc -fno-builtin-calloc -fno-builtin-realloc -fno-builtin-free\" LDFLAGS=-L/usr/local/lib LIBS=\"-ltcmalloc -lcurl\" CC=clang"
+        }
+    },
+    "tasks": [
+        {
+            "label": "Example",
+            "type": "shell",
+            "command": "echo win_dir is $win_dir"
+        },
+    ]
+}
+
+settings.json中添加自定义变量：
+{
+    "win_dir": "build_windows",
+    "linux_dir": "build",
+    "osx_dir": "build_osx",
+    "configure": "../configure --with-bash-malloc=no CFLAGS=\"-O3 -fno-builtin-malloc -fno-builtin-calloc -fno-builtin-realloc -fno-builtin-free\" LDFLAGS=-L/usr/local/lib LIBS=\"-ltcmalloc -lcurl\" CC=clang"
+}
+
+"tasks": [
+    {
+        "taskName": "configure",
+        "command": "bash",
+        "windows": {
+            "args": ["-c", "rm -rf ${config:win_dir}; mkdir ${config:win_dir}; cd ${config:win_dir}; ${config:configure}"]
+        },
+        "linux": {
+            "args": ["-c", "rm -rf ${config:linux_dir}; mkdir ${config:linux_dir}; cd ${config:linux_dir}; ${config:configure}"]
+        },
+        "osx": {
+            "args": ["-c", "rm -rf ${config:osx_dir}; mkdir ${config:osx_dir}; cd ${config:osx_dir}; ${config:configure}"]
+        },
+        "isBuildCommand": true,
+        "problemMatcher": "$make-compile"
+    }
+]
+
+多任务
+{
+  "label": "One",
+  "type": "shell",
+  "command": "echo Hello ",
+  "dependsOrder": "sequence", //"parallel"时，"Two"和"Three"并发执行后执行当前task
+  "dependsOn": ["Two", "Three"]
+}
